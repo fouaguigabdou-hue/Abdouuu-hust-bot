@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABDOUUU VIP HOSTENG</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:#0a0000;color:#fff;font-family:'Arial Black','Arial',sans-serif;display:flex;justify-content:center;align-items:center;padding:20px;position:relative}
+#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.35}
+.grid-bg{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(255,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,0,.06) 1px,transparent 1px);background-size:40px 40px;animation:gridMove 15s linear infinite}
+@keyframes gridMove{0%{background-position:0 0}100%{background-position:40px 40px}}
+.wrapper{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;position:relative;z-index:10}
+.logo-box{width:120px;height:120px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;position:relative}
+.logo-box::before{content:'';position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(from 0deg,#ff0000,#ff5555,#ff0000);animation:rotate 3s linear infinite;filter:blur(15px);opacity:.7}
+@keyframes rotate{100%{transform:rotate(360deg)}}
+.logo-box img{width:100%;height:100%;object-fit:contain;border-radius:50%;position:relative;z-index:2;filter:drop-shadow(0 0 20px #ff0000)}
+.logo-fallback{width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:900;color:#ff0000;font-family:'Arial Black',sans-serif;text-shadow:0 0 25px #ff0000,0 0 50px #ff0000;position:relative;z-index:2}
+.title{font-size:24px;font-weight:900;letter-spacing:2px;margin-bottom:6px;font-family:'Arial Black',sans-serif;text-align:center;white-space:nowrap;text-transform:uppercase}
+.title .white{color:#fff;text-shadow:0 0 10px #fff,0 0 20px #fff,0 0 30px #ff0000,0 0 40px #ff0000;font-weight:900}
+.title .red{color:#ff0000;text-shadow:0 0 10px #ff0000,0 0 20px #ff0000,0 0 30px #ff0000,0 0 50px #ff0000;font-weight:900}
+.subtitle{font-size:12px;color:#ff1a1a;letter-spacing:4px;margin-bottom:28px;font-weight:900;text-transform:uppercase;text-shadow:0 0 10px #ff0000,0 0 20px #ff0000}
+.signin-box{background:rgba(10,0,0,.85);border:2px solid #ff0000;border-radius:18px;padding:28px 22px 22px 22px;width:100%;position:relative;box-shadow:0 0 30px rgba(255,0,0,.5),inset 0 0 30px rgba(255,0,0,.08);backdrop-filter:blur(3px)}
+.signin-box::before{content:'';position:absolute;top:-2px;left:50%;transform:translateX(-50%);width:60%;height:2px;background:linear-gradient(90deg,transparent,#ff0000,transparent);filter:blur(2px);box-shadow:0 0 15px #ff0000}
+.signin-title{font-size:22px;font-weight:900;color:#fff;text-align:center;letter-spacing:2px;margin-bottom:8px;text-shadow:0 0 15px #ff0000,0 0 30px #ff0000}
+.signin-subtitle{font-size:12px;color:#cc0000;text-align:center;margin-bottom:22px;font-weight:bold;text-shadow:0 0 10px #ff0000;letter-spacing:1px}
+.input-wrap{position:relative;margin-bottom:16px}
+.input-wrap input{width:100%;padding:16px 50px 16px 18px;background:rgba(0,0,0,.8);border:2px solid #ff0000;border-radius:12px;color:#fff;font-size:15px;font-family:'Courier New',monospace;letter-spacing:1px;outline:none;transition:.3s;text-shadow:0 0 10px rgba(255,0,0,.5)}
+.input-wrap input:focus{box-shadow:0 0 25px rgba(255,0,0,.8),inset 0 0 15px rgba(255,0,0,.2);border-color:#ff3333}
+.input-wrap input::placeholder{color:#660000;letter-spacing:0}
+.key-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:22px;color:#ff0000;filter:drop-shadow(0 0 10px #ff0000);animation:keyPulse 2s infinite}
+@keyframes keyPulse{0%,100%{transform:translateY(-50%) scale(1)}50%{transform:translateY(-50%) scale(1.15)}}
+.options{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:13px}
+.save-label{display:flex;align-items:center;gap:8px;color:#ccc;cursor:pointer;user-select:none;font-weight:bold;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.save-label input[type="checkbox"]{width:20px;height:20px;accent-color:#ff0000;cursor:pointer}
+.forgot{color:#ff0000;text-decoration:none;font-weight:900;font-size:13px;transition:.3s;text-shadow:0 0 10px #ff0000}
+.forgot:hover{text-shadow:0 0 20px #ff0000,0 0 30px #ff0000}
+.btn-login{width:100%;padding:18px;background:linear-gradient(180deg,#ff0000 0%,#990000 100%);border:2px solid #ff3333;border-radius:12px;color:#fff;font-size:18px;font-weight:900;letter-spacing:3px;cursor:pointer;transition:.3s;font-family:'Arial Black',sans-serif;text-transform:uppercase;box-shadow:0 4px 20px rgba(255,0,0,.6),inset 0 0 20px rgba(255,255,255,.1);text-shadow:0 0 15px #fff,0 0 25px #ff0000}
+.btn-login:hover{background:linear-gradient(180deg,#ff3333 0%,#bb0000 100%);box-shadow:0 6px 35px rgba(255,0,0,1),inset 0 0 25px rgba(255,255,255,.15);transform:translateY(-2px)}
+.btn-login:active{transform:translateY(1px)}
+.btn-login:disabled{opacity:.6;cursor:not-allowed}
+.buy-key{display:block;text-align:center;color:#ff0000;font-size:15px;font-weight:900;letter-spacing:2px;margin-top:16px;text-decoration:none;transition:.3s;font-family:'Arial Black',sans-serif;text-shadow:0 0 10px #ff0000,0 0 20px #ff0000}
+.buy-key:hover{text-shadow:0 0 20px #ff0000,0 0 40px #ff0000,0 0 60px #ff0000}
+.footer-stats{display:flex;justify-content:space-around;margin-top:20px;padding-top:15px;border-top:1px solid rgba(255,0,0,.25);font-size:11px;color:#ff3333;letter-spacing:2px;text-transform:uppercase;font-weight:900;text-shadow:0 0 10px #ff0000}
+.powered{text-align:center;color:#660000;font-size:11px;letter-spacing:3px;margin-top:18px;text-transform:uppercase;font-weight:900;text-shadow:0 0 10px #ff0000}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(10,0,0,.95);color:#fff;padding:14px 24px;border-radius:10px;border:2px solid #ff0000;font-size:13px;font-weight:900;box-shadow:0 0 30px rgba(255,0,0,.8);z-index:2000;display:none;text-shadow:0 0 10px #ff0000}
+.toast.success{border-color:#00ff88;color:#00ff88;box-shadow:0 0 30px rgba(0,255,136,.8);text-shadow:0 0 10px #00ff88}
+.toast.error{border-color:#ff0000;color:#ff0000}
+@media(max-width:400px){.title{font-size:19px}.logo-box{width:100px;height:100px}}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="grid-bg"></div>
+<div class="toast" id="toast"></div>
+<div class="wrapper">
+    <div class="logo-box">
+        <img src="/logo.jpg" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="logo-fallback" style="display:none;">AB</div>
+    </div>
+    <h1 class="title">
+        <span class="white">ABDOUUU</span>
+        <span class="red">VIP</span>
+        <span class="white">HOSTENG</span>
+    </h1>
+    <div class="subtitle">CPS • TEAM</div>
+    <div class="signin-box">
+        <div class="signin-title">SIGN IN</div>
+        <div class="signin-subtitle">ENTER YOUR KEY TO CONTINUE</div>
+        <div class="input-wrap">
+            <input type="text" id="keyInput" placeholder="XXXXXXXX" dir="ltr" autocomplete="off">
+            <span class="key-icon">🔑</span>
+        </div>
+        <div class="options">
+            <label class="save-label">
+                <input type="checkbox" id="saveKey" checked>
+                <span>Save Key</span>
+            </label>
+            <a href="#" class="forgot" onclick="forgotKey();return false;">Forgot Key?</a>
+        </div>
+        <button class="btn-login" id="loginBtn" onclick="login()">LOGIN</button>
+        <a href="https://instagram.com/zi.wr" target="_blank" class="buy-key">BUY KEY</a>
+        <div class="footer-stats">
+            <span>SECURE</span><span>FAST</span><span>UNDETECTABLE</span>
+        </div>
+    </div>
+    <div class="powered">POWERED BY ABDOUUU TEAM</div>
+</div>
+<script>
+const canvas=document.getElementById('matrix');
+const ctx=canvas.getContext('2d');
+let cols,drops;
+const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+const fontSize=14;
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;cols=Math.floor(canvas.width/fontSize);drops=Array(cols).fill(1)}
+resizeCanvas();
+window.addEventListener('resize',resizeCanvas);
+function drawMatrix(){
+    ctx.fillStyle='rgba(0,0,0,.08)';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#ff0000';ctx.font=fontSize+'px monospace';ctx.shadowColor='#ff0000';ctx.shadowBlur=10;
+    for(let i=0;i<drops.length;i++){
+        const text=chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+        if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix,50);
+window.onload=()=>{const saved=localStorage.getItem('savedKey');if(saved){document.getElementById('keyInput').value=saved;document.getElementById('saveKey').checked=true}};
+function showToast(msg,type='error'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.style.display='block';clearTimeout(t._tm);t._tm=setTimeout(()=>t.style.display='none',3000)}
+async function login(){
+    const key=document.getElementById('keyInput').value.trim();
+    if(!key)return showToast('❌ أدخل الكود أولاً','error');
+    if(document.getElementById('saveKey').checked)localStorage.setItem('savedKey',key);
+    else localStorage.removeItem('savedKey');
+    const btn=document.getElementById('loginBtn');
+    btn.disabled=true;btn.textContent='LOADING...';
+    try{
+        const res=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key})});
+        const data=await res.json();
+        if(data.success){
+            localStorage.setItem('userKey',key);
+            showToast('✅ تم الدخول','success');
+            setTimeout(()=>window.location.href='/dashboard.html',400);
+        }else{
+            showToast(data.message||'❌ كود غير صحيح','error');
+            btn.disabled=false;btn.textContent='LOGIN';
+        }
+    }catch(e){showToast('⚠️ خطأ في الاتصال','error');btn.disabled=false;btn.textContent='LOGIN'}
+}
+function forgotKey(){window.open('https://instagram.com/zi.wr','_blank')}
+document.getElementById('keyInput').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+</script>
+</body>
+</html>

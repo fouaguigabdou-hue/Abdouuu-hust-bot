@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABDOUUU VIP HOSTENG</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{background:#0a0000;color:#fff;font-family:'Arial Black','Arial',sans-serif;min-height:100vh;padding:18px;position:relative}
+#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.25}
+.grid-bg{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(255,0,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,0,.05) 1px,transparent 1px);background-size:40px 40px;animation:gridMove 15s linear infinite}
+@keyframes gridMove{0%{background-position:0 0}100%{background-position:40px 40px}}
+.wrapper{max-width:520px;margin:0 auto;position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
+.top-section{display:flex;flex-direction:column;align-items:center;margin-bottom:22px}
+.logo-box{width:100px;height:100px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;position:relative}
+.logo-box::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#ff0000,#ff5555,#ff0000);animation:rotate 3s linear infinite;filter:blur(12px);opacity:.7}
+@keyframes rotate{100%{transform:rotate(360deg)}}
+.logo-box img{width:100%;height:100%;object-fit:contain;border-radius:50%;position:relative;z-index:2;filter:drop-shadow(0 0 15px #ff0000)}
+.logo-fallback{width:100px;height:100px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;color:#ff0000;text-shadow:0 0 20px #ff0000,0 0 40px #ff0000;position:relative;z-index:2}
+.brand-name{font-size:19px;font-weight:900;letter-spacing:2px;white-space:nowrap;text-align:center;text-transform:uppercase}
+.brand-name .white{color:#fff;text-shadow:0 0 8px #fff,0 0 15px #ff0000,0 0 25px #ff0000}
+.brand-name .red{color:#ff0000;text-shadow:0 0 10px #ff0000,0 0 20px #ff0000,0 0 35px #ff0000}
+.top-buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;width:100%;margin-bottom:22px}
+.top-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 8px;background:linear-gradient(180deg,#ff0000 0%,#990000 100%);border:2px solid #ff3333;border-radius:12px;color:#fff;font-size:11px;font-weight:900;cursor:pointer;transition:.3s;font-family:'Arial Black',sans-serif;text-align:center;min-height:85px;box-shadow:0 4px 15px rgba(255,0,0,.5),inset 0 0 15px rgba(255,255,255,.1);text-shadow:0 0 10px #fff,0 0 20px #fff;letter-spacing:1px}
+.top-btn:hover{background:linear-gradient(180deg,#ff3333 0%,#bb0000 100%);transform:translateY(-3px);box-shadow:0 6px 30px rgba(255,0,0,.9),inset 0 0 20px rgba(255,255,255,.2)}
+.top-btn:active{transform:translateY(0)}
+.top-btn .icon{font-size:26px;filter:drop-shadow(0 0 10px #fff);text-shadow:0 0 15px #fff}
+.bots-section{width:100%}
+.section-title{font-size:15px;color:#ff0000;font-weight:900;letter-spacing:3px;margin-bottom:14px;text-align:center;text-transform:uppercase;text-shadow:0 0 10px #ff0000,0 0 20px #ff0000}
+.bot-item{background:rgba(10,0,0,.85);border:2px solid #ff0000;border-radius:14px;padding:15px;margin-bottom:12px;transition:.3s;box-shadow:0 0 20px rgba(255,0,0,.3),inset 0 0 20px rgba(255,0,0,.05);backdrop-filter:blur(3px)}
+.bot-item:hover{border-color:#ff3333;box-shadow:0 0 35px rgba(255,0,0,.7),inset 0 0 25px rgba(255,0,0,.1)}
+.bot-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.bot-name{font-size:16px;font-weight:900;color:#fff;text-shadow:0 0 10px #fff,0 0 20px #ff0000;letter-spacing:1px}
+.bot-status{font-size:11px;font-weight:900;padding:5px 12px;border-radius:15px;display:inline-flex;align-items:center;gap:5px;letter-spacing:1px}
+.bot-status.running{background:rgba(0,255,136,.15);color:#00ff88;border:1px solid #00ff88;box-shadow:0 0 15px rgba(0,255,136,.5);text-shadow:0 0 10px #00ff88}
+.bot-status.stopped{background:rgba(255,0,0,.2);color:#ff0000;border:1px solid #ff0000;box-shadow:0 0 15px rgba(255,0,0,.5);text-shadow:0 0 10px #ff0000}
+.bot-meta{font-size:11px;color:#cc0000;margin-top:8px;font-family:'Courier New',monospace;letter-spacing:1px;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.bot-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.bot-actions button{flex:1;min-width:70px;padding:10px 12px;background:linear-gradient(180deg,#ff0000 0%,#990000 100%);border:2px solid #ff3333;border-radius:10px;color:#fff;font-size:11px;font-weight:900;cursor:pointer;transition:.2s;font-family:'Arial Black',sans-serif;letter-spacing:1px;box-shadow:0 3px 12px rgba(255,0,0,.5);text-shadow:0 0 8px #fff}
+.bot-actions button:hover{background:linear-gradient(180deg,#ff3333 0%,#bb0000 100%);box-shadow:0 4px 20px rgba(255,0,0,.9);transform:translateY(-2px)}
+.bot-actions button:active{transform:translateY(0)}
+.empty-state{text-align:center;color:#660000;padding:30px 15px;font-size:13px;background:rgba(10,0,0,.7);border:2px dashed #ff0000;border-radius:12px;font-weight:900;letter-spacing:1px;text-shadow:0 0 10px #ff0000}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;justify-content:center;align-items:center;padding:15px;backdrop-filter:blur(5px)}
+.modal-overlay.active{display:flex}
+.modal{background:rgba(10,0,0,.95);border:2px solid #ff0000;border-radius:18px;padding:22px;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;box-shadow:0 0 50px rgba(255,0,0,.7),inset 0 0 30px rgba(255,0,0,.08)}
+.modal-title{font-size:18px;font-weight:900;color:#ff0000;text-align:center;margin-bottom:18px;font-family:'Arial Black',sans-serif;letter-spacing:2px;text-shadow:0 0 15px #ff0000,0 0 30px #ff0000}
+.modal-field{margin-bottom:14px}
+.modal-field label{display:block;font-size:12px;color:#ff3333;margin-bottom:6px;font-weight:900;letter-spacing:1px;text-shadow:0 0 8px #ff0000}
+.modal-field input,.modal-field select{width:100%;padding:13px;background:rgba(0,0,0,.9);border:2px solid #ff0000;border-radius:10px;color:#fff;font-size:14px;font-family:'Courier New',monospace;outline:none;transition:.3s;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.modal-field input:focus,.modal-field select:focus{box-shadow:0 0 25px rgba(255,0,0,.8);border-color:#ff3333}
+.folder-btn{width:100%;padding:14px;background:linear-gradient(180deg,#ff0000 0%,#990000 100%);border:2px solid #ff3333;border-radius:10px;color:#fff;font-size:13px;font-weight:900;cursor:pointer;transition:.3s;font-family:'Arial Black',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;box-shadow:0 3px 12px rgba(255,0,0,.5);text-shadow:0 0 8px #fff;letter-spacing:1px}
+.folder-btn:hover{background:linear-gradient(180deg,#ff3333 0%,#bb0000 100%);box-shadow:0 5px 25px rgba(255,0,0,.9);transform:translateY(-2px)}
+.folder-info{font-size:11px;color:#cc0000;text-align:center;margin-bottom:10px;font-weight:bold;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.files-tree{background:rgba(0,0,0,.9);border:2px solid #ff0000;border-radius:10px;padding:12px;margin-top:12px;box-shadow:inset 0 0 15px rgba(255,0,0,.2)}
+.tree-header{display:flex;justify-content:space-between;font-size:11px;color:#ff3333;font-weight:900;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed rgba(255,0,0,.4);text-shadow:0 0 8px #ff0000;letter-spacing:1px}
+.tree-content{max-height:200px;overflow-y:auto;font-family:'Courier New',monospace;font-size:11px;margin-bottom:10px}
+.tree-item{padding:4px 6px;color:#cc0000;cursor:pointer;border-radius:4px;transition:.2s;display:flex;justify-content:space-between;white-space:nowrap;overflow:hidden}
+.tree-item:hover{background:rgba(255,0,0,.15);color:#fff}
+.tree-item.code{color:#00ff88;font-weight:bold}
+.tree-item.code:hover{background:rgba(0,255,136,.15)}
+.tree-item.selected{background:linear-gradient(90deg,rgba(255,0,0,.4),transparent);color:#fff;border-right:3px solid #ff0000}
+.tree-item .tree-path{overflow:hidden;text-overflow:ellipsis;flex:1}
+.tree-item .tree-badge{font-size:9px;color:#ffcc00;margin-right:4px;flex-shrink:0}
+.main-file-box{background:rgba(255,0,0,.1);border:2px solid #ff3333;border-radius:8px;padding:10px;margin-top:10px}
+.main-file-box label{display:block;font-size:11px;color:#ff3333;font-weight:900;margin-bottom:5px;text-shadow:0 0 8px #ff0000;letter-spacing:1px}
+.main-file-box input{width:100%;padding:9px;background:rgba(0,0,0,.9);border:1px solid #ff3333;border-radius:6px;color:#fff;font-family:'Courier New',monospace;font-size:12px;outline:none}
+.main-file-box input:focus{box-shadow:0 0 15px rgba(255,0,0,.7)}
+.main-file-hint{font-size:10px;color:#cc0000;margin-top:5px;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.modal-actions{display:flex;gap:10px;margin-top:18px}
+.btn-modal{flex:1;padding:14px;background:linear-gradient(180deg,#ff0000 0%,#990000 100%);border:2px solid #ff3333;border-radius:10px;color:#fff;font-size:13px;font-weight:900;cursor:pointer;transition:.3s;font-family:'Arial Black',sans-serif;letter-spacing:1px;text-transform:uppercase;box-shadow:0 4px 15px rgba(255,0,0,.5);text-shadow:0 0 8px #fff}
+.btn-modal:hover{background:linear-gradient(180deg,#ff3333 0%,#bb0000 100%);box-shadow:0 6px 25px rgba(255,0,0,.9);transform:translateY(-2px)}
+.info-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,0,0,.2);font-size:13px;font-weight:bold}
+.info-row:last-child{border-bottom:none}
+.info-row .label{color:#cc0000;font-weight:900;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.info-row .value{color:#fff;font-weight:900;text-shadow:0 0 10px #fff,0 0 15px #ff0000}
+.info-row .value.highlight{color:#00ff88;text-shadow:0 0 10px #00ff88,0 0 20px #00ff88}
+.info-row .value.danger{color:#ff0000;text-shadow:0 0 10px #ff0000,0 0 20px #ff0000}
+.info-key{font-family:'Courier New',monospace;font-size:11px;color:#ffcc00;word-break:break-all;text-align:center;padding:12px;background:rgba(0,0,0,.9);border:2px solid #ff0000;border-radius:10px;margin-top:10px;text-shadow:0 0 10px #ffcc00;box-shadow:inset 0 0 15px rgba(255,0,0,.2)}
+
+/* ========== TERMINAL أخضر متوهج ========== */
+.terminal-container{
+    background:#000;
+    color:#00ff41;
+    padding:15px;
+    border-radius:8px;
+    font-family:'Courier New',monospace;
+    font-size:12px;
+    white-space:pre-wrap;
+    word-break:break-all;
+    max-height:55vh;
+    overflow-y:auto;
+    line-height:1.6;
+    margin-bottom:12px;
+    min-height:280px;
+    border:2px solid #00ff41;
+    text-shadow:0 0 8px #00ff41;
+    box-shadow:
+        inset 0 0 30px rgba(0,255,65,.15),
+        0 0 20px rgba(0,255,65,.3);
+    position:relative
+}
+.terminal-container::-webkit-scrollbar{width:8px}
+.terminal-container::-webkit-scrollbar-track{background:#001100}
+.terminal-container::-webkit-scrollbar-thumb{
+    background:#00ff41;border-radius:4px;box-shadow:0 0 10px #00ff41
+}
+.terminal-container .line{
+    display:block;
+    animation:lineIn .15s ease
+}
+@keyframes lineIn{
+    from{opacity:0;transform:translateX(-5px)}
+    to{opacity:1;transform:translateX(0)}
+}
+.terminal-container .setup{color:#00ccff;text-shadow:0 0 8px #00ccff}
+.terminal-container .pip-ok{color:#00ff88;text-shadow:0 0 8px #00ff88}
+.terminal-container .pip-warn{color:#ffcc00;text-shadow:0 0 8px #ffcc00}
+.terminal-container .pip-fail{color:#ff3333;text-shadow:0 0 8px #ff3333}
+.terminal-container .launch{color:#00ff41;font-weight:bold;text-shadow:0 0 15px #00ff41,0 0 25px #00ff41}
+.terminal-container .stop{color:#ff3333;text-shadow:0 0 10px #ff3333}
+.terminal-container .start{color:#00ccff;text-shadow:0 0 10px #00ccff}
+.terminal-container .error{color:#ff3333;text-shadow:0 0 10px #ff3333}
+.terminal-container .header{color:#00ff41;font-weight:bold;text-shadow:0 0 15px #00ff41}
+.terminal-container .separator{color:#008822}
+.terminal-cursor{
+    display:inline-block;
+    width:9px;
+    height:14px;
+    background:#00ff41;
+    animation:blink .8s infinite;
+    vertical-align:middle;
+    box-shadow:0 0 12px #00ff41;
+    margin-right:4px
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.logs-controls{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.logs-controls button{flex:1;min-width:70px;padding:9px 10px;background:linear-gradient(180deg,#ff0000 0%,#990000 100%);border:2px solid #ff3333;border-radius:8px;color:#fff;font-size:11px;font-weight:900;cursor:pointer;transition:.2s;font-family:'Arial Black',sans-serif;letter-spacing:1px;box-shadow:0 3px 10px rgba(255,0,0,.5);text-shadow:0 0 8px #fff}
+.logs-controls button:hover{background:linear-gradient(180deg,#ff3333 0%,#bb0000 100%);box-shadow:0 4px 18px rgba(255,0,0,.9);transform:translateY(-2px)}
+.logs-controls button.off{background:linear-gradient(180deg,#666 0%,#333 100%);border-color:#888;box-shadow:none}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(10,0,0,.95);color:#fff;padding:14px 24px;border:2px solid #ff0000;border-radius:10px;font-size:13px;font-weight:900;box-shadow:0 0 30px rgba(255,0,0,.8);z-index:2000;display:none;text-shadow:0 0 10px #ff0000;letter-spacing:1px}
+.toast.success{border-color:#00ff88;color:#00ff88;box-shadow:0 0 30px rgba(0,255,136,.8);text-shadow:0 0 10px #00ff88}
+.toast.error{border-color:#ff0000;color:#ff0000}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="grid-bg"></div>
+<div class="toast" id="toast"></div>
+
+<div class="wrapper">
+    <div class="top-section">
+        <div class="logo-box">
+            <img src="/logo.jpg" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="logo-fallback" style="display:none;">AB</div>
+        </div>
+        <div class="brand-name">
+            <span class="white">ABDOUUU</span>
+            <span class="red">VIP</span>
+            <span class="white">HOSTENG</span>
+        </div>
+    </div>
+
+    <div class="top-buttons">
+        <button class="top-btn" onclick="openUpload()"><span class="icon">📁</span><span>رفع ملف</span></button>
+        <button class="top-btn" onclick="openInfo()"><span class="icon">👤</span><span>معلوماتي</span></button>
+        <button class="top-btn" onclick="logout()"><span class="icon">🚪</span><span>خروج</span></button>
+    </div>
+
+    <div class="bots-section">
+        <div class="section-title">🤖 بوتاتي</div>
+        <div id="botsList"><div class="empty-state">جاري التحميل...</div></div>
+    </div>
+</div>
+
+<!-- نافذة الرفع -->
+<div class="modal-overlay" id="uploadModal">
+    <div class="modal" style="max-width:600px">
+        <div class="modal-title">📁 رفع ملفات بوت</div>
+        <div class="modal-field">
+            <label>اسم البوت</label>
+            <input type="text" id="botName" placeholder="مثال: بوت واتساب">
+        </div>
+        <div class="modal-field">
+            <label>نوع البوت</label>
+            <select id="language">
+                <option value="python">🐍 Python</option>
+                <option value="node">🟢 Node.js</option>
+            </select>
+        </div>
+        <div class="modal-field">
+            <label>اختر ملفات أو مجلد</label>
+            <button class="folder-btn" onclick="document.getElementById('fileInput').click()">📂 اختيار ملفات (متعددة / ZIP)</button>
+            <button class="folder-btn" onclick="document.getElementById('folderInput').click()">📁 اختيار مجلد كامل</button>
+            <input type="file" id="fileInput" multiple accept=".py,.js,.zip,.txt,.json,.env" style="display:none">
+            <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
+        </div>
+        <div class="folder-info">💡 عند رفع ZIP، سيتم فحصه وعرض ملفاته لاختيار الرئيسي</div>
+        <div class="files-tree" id="filesTree" style="display:none">
+            <div class="tree-header">
+                <span>🌳 محتوى الملفات</span>
+                <span id="filesCount"></span>
+            </div>
+            <div class="tree-content" id="treeContent"></div>
+            <div class="main-file-box">
+                <label>🎯 الملف الرئيسي (سيُشغَّل أولاً)</label>
+                <input type="text" id="mainFileInput" placeholder="مثال: main.py" dir="ltr">
+                <div class="main-file-hint">اضغط على أي ملف في القائمة لتعيينه كرئيسي</div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-modal" onclick="closeUpload()">إلغاء</button>
+            <button class="btn-modal" onclick="uploadBot()">🚀 تشغيل</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة المعلومات -->
+<div class="modal-overlay" id="infoModal">
+    <div class="modal">
+        <div class="modal-title">👤 معلوماتي</div>
+        <div class="info-row"><span class="label">الاسم</span><span class="value">ABDOUUU</span></div>
+        <div class="info-row"><span class="label">اللقب</span><span class="value">VIP HOSTENG</span></div>
+        <div class="info-row"><span class="label">البوتات المرفوعة</span><span class="value" id="infoBotsCount">0</span></div>
+        <div class="info-row"><span class="label">الحد الأقصى</span><span class="value" id="infoMaxBots">0</span></div>
+        <div class="info-row"><span class="label">عدد المستخدمين</span><span class="value" id="infoMaxUsers">1</span></div>
+        <div class="info-row"><span class="label">RAM لكل بوت</span><span class="value" id="infoRam">256 MB</span></div>
+        <div class="info-row"><span class="label">المتبقي</span><span class="value" id="infoRemaining">0 يوم 0 ساعة</span></div>
+        <div class="info-row"><span class="label">حالة الكود</span><span class="value" id="infoStatus">نشط</span></div>
+        <div style="margin-top:15px">
+            <div style="font-size:11px;color:#cc0000;text-align:center;margin-bottom:6px;font-weight:900;text-shadow:0 0 8px #ff0000">كود الوصول</div>
+            <div class="info-key" id="infoKey">-</div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-modal" onclick="closeInfo()">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة Terminal -->
+<div class="modal-overlay" id="logsModal">
+    <div class="modal" style="max-width:700px">
+        <div class="modal-title">💻 TERMINAL: <span id="logBotName">-</span></div>
+        <div class="terminal-container" id="logsContent">Connecting...</div>
+        <div class="logs-controls">
+            <button onclick="refreshLogs()">🔄 تحديث</button>
+            <button id="autoBtn" onclick="toggleAuto()">⏸ إيقاف</button>
+            <button onclick="downloadLogs()">💾 تحميل</button>
+            <button onclick="clearLogs()">🗑 مسح</button>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-modal" onclick="closeLogs()">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== Matrix أحمر =====
+const canvas=document.getElementById('matrix');
+const ctx=canvas.getContext('2d');
+let cols,drops;
+const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+const fontSize=14;
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;cols=Math.floor(canvas.width/fontSize);drops=Array(cols).fill(1)}
+resizeCanvas();
+window.addEventListener('resize',resizeCanvas);
+function drawMatrix(){
+    ctx.fillStyle='rgba(0,0,0,.08)';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#ff0000';ctx.font=fontSize+'px monospace';ctx.shadowColor='#ff0000';ctx.shadowBlur=10;
+    for(let i=0;i<drops.length;i++){
+        const text=chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+        if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix,50);
+
+// ===== State =====
+const userKey=localStorage.getItem('userKey');
+if(!userKey)window.location.href='/';
+let currentUser=null;
+let selectedFiles=[];
+let logInterval=null;
+let autoRefresh=true;
+let currentLogBotId=null;
+let currentLogBotName='';
+
+function showToast(msg,type='error'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.style.display='block';clearTimeout(t._tm);t._tm=setTimeout(()=>t.style.display='none',3000)}
+
+function escapeHtml(text){
+    const div=document.createElement('div');
+    div.textContent=text;
+    return div.innerHTML;
+}
+
+async function loadUser(){
+    try{
+        const res=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:userKey})});
+        const data=await res.json();
+        if(!data.success)return logout();
+        currentUser=data.user;
+        renderBots();
+    }catch(e){console.error(e)}
+}
+
+function renderBots(){
+    const list=document.getElementById('botsList');
+    const bots=currentUser.bots||[];
+    if(bots.length===0){list.innerHTML='<div class="empty-state">لا توجد بوتات — اضغط "رفع ملف"</div>';return}
+    list.innerHTML=bots.map(bot=>`
+        <div class="bot-item">
+            <div class="bot-header">
+                <div class="bot-name">${bot.name}</div>
+                <div class="bot-status ${bot.status}">● ${bot.status==='running'?'شغال':'متوقف'}</div>
+            </div>
+            <div class="bot-meta">${bot.language==='python'?'🐍 Python':'🟢 Node.js'} • 📄 ${bot.mainFile||'?'} • ${new Date(bot.createdAt).toLocaleString('ar')}</div>
+            <div class="bot-actions">
+                ${bot.status==='running'
+                    ?`<button onclick="botAction('stop','${bot.botId}')">⏸ إيقاف</button>`
+                    :`<button onclick="botAction('start','${bot.botId}')">▶ تشغيل</button>`}
+                <button onclick="showLogs('${bot.botId}','${bot.name}')">💻 Terminal</button>
+                <button onclick="botAction('delete','${bot.botId}')">🗑 حذف</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openUpload(){
+    if(!currentUser)return;
+    if(currentUser.bots.length>=currentUser.maxBots)return showToast(`⚠️ وصلت للحد الأقصى (${currentUser.maxBots})`,'error');
+    document.getElementById('uploadModal').classList.add('active');
+}
+function closeUpload(){
+    document.getElementById('uploadModal').classList.remove('active');
+    document.getElementById('filesTree').style.display='none';
+    document.getElementById('fileInput').value='';
+    document.getElementById('folderInput').value='';
+    document.getElementById('mainFileInput').value='';
+    selectedFiles=[];
+}
+
+async function handleFiles(files){
+    selectedFiles=Array.from(files);
+    const treeEl=document.getElementById('filesTree');
+    const treeContent=document.getElementById('treeContent');
+    const filesCountEl=document.getElementById('filesCount');
+    
+    if(selectedFiles.length===0){treeEl.style.display='none';return}
+    treeEl.style.display='block';
+    
+    if(selectedFiles.length===1 && selectedFiles[0].name.toLowerCase().endsWith('.zip')){
+        treeContent.innerHTML='<div style="color:#ffcc00;padding:10px">🔍 جاري فحص ZIP...</div>';
+        filesCountEl.textContent='';
+        const fd=new FormData();
+        fd.append('zipFile',selectedFiles[0]);
+        try{
+            const res=await fetch('/api/bot/inspect-zip',{method:'POST',body:fd});
+            const data=await res.json();
+            if(data.success){
+                filesCountEl.textContent=`[${data.totalFiles} ملف]`;
+                let infoHtml='';
+                if(data.hasRequirements){
+                    infoHtml+=`<div style="color:#00ff88;font-size:10px;padding:5px;background:rgba(0,255,136,.1);border-radius:5px;margin-bottom:6px">✅ تم اكتشاف requirements.txt — سيتم تثبيت المكتبات تلقائياً</div>`;
+                }
+                if(data.hasPackage){
+                    infoHtml+=`<div style="color:#00aaff;font-size:10px;padding:5px;background:rgba(0,170,255,.1);border-radius:5px;margin-bottom:6px">✅ تم اكتشاف package.json — سيتم تثبيت الحزم تلقائياً</div>`;
+                }
+                const shown=data.tree.slice(0,80);
+                treeContent.innerHTML=infoHtml+shown.map(f=>{
+                    const indent='　'.repeat(Math.min(f.depth,5));
+                    let cls='tree-item';
+                    let badge='';
+                    if(f.isCode){cls+=' code';badge='<span class="tree-badge">▶ قابل للتشغيل</span>'}
+                    else if(f.isReq){badge='<span class="tree-badge">📦 مكتبات</span>'}
+                    else if(f.isPkg){badge='<span class="tree-badge">📦 حزم</span>'}
+                    if(f.path===data.suggested){cls+=' selected'}
+                    return `<div class="${cls}" onclick="selectMainFile('${f.path.replace(/'/g,"\\'")}',this)" data-path="${f.path}">
+                        <span class="tree-path">${indent}${f.isCode?'📄':'📎'} ${f.path}</span>
+                        ${badge}
+                    </div>`;
+                }).join('');
+                if(data.tree.length>80){
+                    treeContent.innerHTML+=`<div style="color:#666;font-size:10px;padding:5px;text-align:center">... و ${data.tree.length-80} ملف آخر</div>`;
+                }
+                if(data.suggested){document.getElementById('mainFileInput').value=data.suggested}
+            }else{
+                treeContent.innerHTML=`<div style="color:#ff0000">❌ ${data.message}</div>`;
+            }
+        }catch(e){treeContent.innerHTML='<div style="color:#ff0000">خطأ في الفحص</div>'}
+    }else{
+        filesCountEl.textContent=`[${selectedFiles.length} ملف]`;
+        const shown=selectedFiles.slice(0,40);
+        treeContent.innerHTML=shown.map(f=>{
+            const isCode=f.name.endsWith('.py')||f.name.endsWith('.js');
+            const path=f.webkitRelativePath||f.name;
+            return `<div class="tree-item ${isCode?'code':''}" onclick="selectMainFile('${path.replace(/'/g,"\\'")}',this)" data-path="${path}">
+                <span class="tree-path">${isCode?'📄':'📎'} ${path}</span>
+                <span class="tree-badge">${(f.size/1024).toFixed(1)}KB</span>
+            </div>`;
+        }).join('');
+        if(selectedFiles.length>40){
+            treeContent.innerHTML+=`<div style="color:#666;font-size:10px;padding:5px;text-align:center">... و ${selectedFiles.length-40} ملف</div>`;
+        }
+    }
+    showToast(`✅ ${selectedFiles.length} ملف`,'success');
+}
+
+function selectMainFile(path,el){
+    document.querySelectorAll('.tree-item').forEach(i=>i.classList.remove('selected'));
+    if(el)el.classList.add('selected');
+    document.getElementById('mainFileInput').value=path;
+    showToast('🎯 الملف الرئيسي: '+path,'success');
+}
+
+document.getElementById('fileInput').addEventListener('change',e=>handleFiles(e.target.files));
+document.getElementById('folderInput').addEventListener('change',e=>handleFiles(e.target.files));
+
+async function uploadBot(){
+    const botName=document.getElementById('botName').value.trim();
+    const language=document.getElementById('language').value;
+    const mainFile=document.getElementById('mainFileInput').value.trim();
+    if(!botName)return showToast('❌ أدخل اسم البوت','error');
+    if(selectedFiles.length===0)return showToast('❌ اختر ملفاً','error');
+    
+    const fd=new FormData();
+    fd.append('userKey',userKey);
+    fd.append('botName',botName);
+    fd.append('language',language);
+    if(mainFile)fd.append('mainFile',mainFile);
+    selectedFiles.forEach(f=>{
+        const filename=f.webkitRelativePath||f.name;
+        fd.append('botFiles',f,filename);
+    });
+    
+    showToast('⏳ جاري الرفع والتشغيل...','success');
+    try{
+        const res=await fetch('/api/bot/upload',{method:'POST',body:fd});
+        const data=await res.json();
+        if(data.success){
+            showToast('✅ '+data.message,'success');
+            closeUpload();
+            document.getElementById('botName').value='';
+            loadUser();
+        }else{
+            showToast('❌ '+data.message,'error');
+        }
+    }catch(e){showToast('⚠️ خطأ','error')}
+}
+
+function openInfo(){
+    if(!currentUser)return;
+    const now=new Date();
+    const expiry=new Date(currentUser.expiry);
+    const diff=expiry-now;
+    if(diff<=0){
+        document.getElementById('infoStatus').textContent='منتهي';
+        document.getElementById('infoStatus').className='value danger';
+        document.getElementById('infoRemaining').textContent='انتهى';
+    }else{
+        const days=Math.floor(diff/86400000);
+        const hours=Math.floor((diff%86400000)/3600000);
+        document.getElementById('infoStatus').textContent='نشط';
+        document.getElementById('infoStatus').className='value highlight';
+        document.getElementById('infoRemaining').textContent=`${days} يوم و ${hours} ساعة`;
+    }
+    document.getElementById('infoBotsCount').textContent=currentUser.bots.length;
+    document.getElementById('infoMaxBots').textContent=currentUser.maxBots;
+    document.getElementById('infoMaxUsers').textContent=currentUser.maxUsers||1;
+    document.getElementById('infoRam').textContent=currentUser.ramLimit+' MB';
+    document.getElementById('infoKey').textContent=userKey;
+    document.getElementById('infoModal').classList.add('active');
+}
+function closeInfo(){document.getElementById('infoModal').classList.remove('active')}
+
+async function botAction(action,botId){
+    if(action==='delete'&&!confirm('حذف البوت؟'))return;
+    try{
+        const res=await fetch('/api/bot/'+action,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userKey,botId})});
+        const data=await res.json();
+        showToast(data.message||'تم',data.success?'success':'error');
+        loadUser();
+    }catch(e){showToast('خطأ','error')}
+}
+
+// ============ Terminal أخضر ============
+async function showLogs(botId,botName){
+    currentLogBotId=botId;
+    currentLogBotName=botName;
+    document.getElementById('logBotName').textContent=botName;
+    document.getElementById('logsModal').classList.add('active');
+    document.getElementById('logsContent').innerHTML='<span class="setup">Connecting to bot terminal...</span>';
+    await refreshLogs();
+    if(logInterval)clearInterval(logInterval);
+    if(autoRefresh)logInterval=setInterval(refreshLogs,1000);
+}
+
+async function refreshLogs(){
+    if(!currentLogBotId)return;
+    try{
+        const res=await fetch(`/api/bot/logs/${userKey}/${currentLogBotId}?tail=500`);
+        const data=await res.json();
+        const c=document.getElementById('logsContent');
+        const wasBottom=c.scrollHeight-c.scrollTop<=c.clientHeight+50;
+        
+        let logs=data.logs||'';
+        if(!logs)logs='> Waiting for output...';
+        
+        // تقسيم الأسطر وتلوينها
+        const lines=logs.split('\n');
+        const html=lines.map(line=>{
+            const trimmed=line.trim();
+            let cls='line';
+            
+            if(trimmed.startsWith('[SETUP]'))cls+=' setup';
+            else if(trimmed.startsWith('[PIP] ✅'))cls+=' pip-ok';
+            else if(trimmed.startsWith('[PIP] ⚠️'))cls+=' pip-warn';
+            else if(trimmed.startsWith('[PIP] ❌'))cls+=' pip-fail';
+            else if(trimmed.startsWith('[PIP]'))cls+=' setup';
+            else if(trimmed.startsWith('[LAUNCH]'))cls+=' launch';
+            else if(trimmed.startsWith('[STOP]'))cls+=' stop';
+            else if(trimmed.startsWith('[START]'))cls+=' start';
+            else if(trimmed.startsWith('[ERROR]')||trimmed.includes('Error:')||trimmed.includes('Traceback'))cls+=' error';
+            else if(trimmed.startsWith('╔')||trimmed.startsWith('║')||trimmed.startsWith('╚'))cls+=' header';
+            else if(trimmed.startsWith('═')||trimmed.startsWith('─'))cls+=' separator';
+            else if(trimmed.startsWith('>>>')||trimmed.startsWith('>'))cls+=' launch';
+            
+            return `<span class="${cls}">${escapeHtml(line)||'&nbsp;'}</span>`;
+        }).join('');
+        
+        c.innerHTML=html+'<br><span style="color:#00ff41">&gt; </span><span class="terminal-cursor"></span>';
+        
+        if(autoRefresh&&wasBottom)c.scrollTop=c.scrollHeight;
+    }catch(e){
+        document.getElementById('logsContent').innerHTML=
+            '<span class="error">❌ خطأ: '+escapeHtml(e.message)+'</span>'+
+            '<br><span style="color:#00ff41">&gt; </span><span class="terminal-cursor"></span>';
+    }
+}
+
+function toggleAuto(){
+    autoRefresh=!autoRefresh;
+    const btn=document.getElementById('autoBtn');
+    if(autoRefresh){
+        btn.textContent='⏸ إيقاف';
+        btn.classList.remove('off');
+        if(logInterval)clearInterval(logInterval);
+        logInterval=setInterval(refreshLogs,1000);
+    }else{
+        btn.textContent='▶ تشغيل';
+        btn.classList.add('off');
+        if(logInterval){clearInterval(logInterval);logInterval=null}
+    }
+}
+
+function downloadLogs(){
+    const content=document.getElementById('logsContent').textContent;
+    const blob=new Blob([content],{type:'text/plain'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=`terminal_${currentLogBotName}_${Date.now()}.txt`;
+    a.click();URL.revokeObjectURL(url);
+    showToast('✅ تم التحميل','success');
+}
+
+function clearLogs(){
+    if(confirm('مسح السجلات؟'))
+        document.getElementById('logsContent').innerHTML='<span style="color:#00ff41">&gt; </span><span class="terminal-cursor"></span>';
+}
+
+function closeLogs(){
+    document.getElementById('logsModal').classList.remove('active');
+    if(logInterval){clearInterval(logInterval);logInterval=null}
+    currentLogBotId=null;
+}
+
+function logout(){
+    localStorage.removeItem('userKey');
+    window.location.href='/';
+}
+
+loadUser();
+setInterval(loadUser,15000);
+</script>
+</body>
+</html>

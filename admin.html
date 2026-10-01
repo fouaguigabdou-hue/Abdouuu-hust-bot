@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN GHOST</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{background:#000;color:#ff0000;font-family:'Courier New',monospace;min-height:100vh;padding:15px;position:relative}
+#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.4}
+.grid-bg{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(255,0,0,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,0,.08) 1px,transparent 1px);background-size:30px 30px;animation:gridMove 10s linear infinite}
+@keyframes gridMove{0%{background-position:0 0}100%{background-position:30px 30px}}
+.terminal{max-width:700px;margin:0 auto;position:relative;z-index:10;background:rgba(0,0,0,.92);border:2px solid #ff0000;border-radius:8px;overflow:hidden;box-shadow:0 0 40px rgba(255,0,0,.7),inset 0 0 40px rgba(255,0,0,.08)}
+.terminal-bar{background:linear-gradient(180deg,#1a0000,#0a0000);padding:10px 15px;border-bottom:2px solid #ff0000;display:flex;align-items:center;gap:8px;font-family:'Courier New',monospace;font-size:12px;font-weight:900;color:#ff0000;text-shadow:0 0 10px #ff0000;letter-spacing:1px}
+.bar-dot{width:12px;height:12px;border-radius:50%;background:#ff0000;box-shadow:0 0 10px #ff0000}
+.bar-dot.yellow{background:#ffaa00;box-shadow:0 0 10px #ffaa00}
+.bar-dot.green{background:#00ff88;box-shadow:0 0 10px #00ff88}
+.bar-title{flex:1;text-align:center;color:#fff;text-shadow:0 0 8px #ff0000}
+.terminal-body{padding:20px}
+.admin-header{text-align:center;margin-bottom:22px;padding-bottom:18px;border-bottom:2px dashed #ff0000}
+.admin-icon{font-size:38px;margin-bottom:8px;filter:drop-shadow(0 0 15px #ff0000);text-shadow:0 0 20px #ff0000;animation:pulseIcon 2s infinite}
+@keyframes pulseIcon{0%,100%{transform:scale(1);filter:drop-shadow(0 0 15px #ff0000)}50%{transform:scale(1.1);filter:drop-shadow(0 0 30px #ff0000)}}
+.admin-title{font-size:18px;font-weight:900;color:#ff0000;letter-spacing:3px;margin-bottom:6px;text-shadow:0 0 10px #ff0000,0 0 20px #ff0000,0 0 30px #ff0000}
+.admin-sub{font-size:11px;color:#cc0000;letter-spacing:2px;text-shadow:0 0 8px #ff0000;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:22px}
+.stat-box{background:rgba(255,0,0,.08);border:2px solid #ff0000;border-radius:8px;padding:12px 8px;text-align:center;box-shadow:0 0 15px rgba(255,0,0,.4),inset 0 0 15px rgba(255,0,0,.08)}
+.stat-num{font-size:22px;font-weight:900;color:#ff0000;text-shadow:0 0 10px #ff0000,0 0 20px #ff0000;font-family:'Courier New',monospace}
+.stat-lbl{font-size:10px;color:#cc0000;margin-top:4px;letter-spacing:1px;font-weight:900;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.section{margin-bottom:22px;border:2px solid #ff0000;border-radius:8px;background:rgba(0,0,0,.6);overflow:hidden}
+.section-header{background:linear-gradient(180deg,#1a0000,#0a0000);padding:10px 14px;border-bottom:2px solid #ff0000;font-size:12px;font-weight:900;color:#ff0000;letter-spacing:2px;text-shadow:0 0 10px #ff0000;display:flex;justify-content:space-between;align-items:center}
+.section-body{padding:14px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.form-field label{display:block;font-size:10px;color:#cc0000;margin-bottom:4px;letter-spacing:1px;font-weight:900;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.form-field input{width:100%;padding:10px;background:rgba(0,0,0,.9);border:2px solid #ff0000;border-radius:6px;color:#fff;font-size:13px;font-family:'Courier New',monospace;outline:none;transition:.3s;text-shadow:0 0 8px #ff0000}
+.form-field input:focus{box-shadow:0 0 20px rgba(255,0,0,.9);border-color:#ff3333}
+.btn{width:100%;padding:14px;background:linear-gradient(180deg,#ff0000 0%,#990000 100%);border:2px solid #ff3333;border-radius:8px;color:#fff;font-size:13px;font-weight:900;cursor:pointer;transition:.3s;font-family:'Courier New',monospace;letter-spacing:2px;text-transform:uppercase;box-shadow:0 4px 15px rgba(255,0,0,.5);text-shadow:0 0 10px #fff,0 0 15px #fff}
+.btn:hover{background:linear-gradient(180deg,#ff3333 0%,#bb0000 100%);box-shadow:0 6px 30px rgba(255,0,0,1);transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn-small{padding:8px 14px;font-size:11px;letter-spacing:1px}
+.new-key{background:rgba(0,20,0,.9);padding:14px;border:2px solid #00ff88;border-radius:8px;color:#00ff88;font-family:'Courier New',monospace;margin-top:12px;font-size:13px;word-break:break-all;box-shadow:0 0 25px rgba(0,255,136,.6);text-align:center;font-weight:900;text-shadow:0 0 10px #00ff88}
+.user-item{background:rgba(255,0,0,.05);border:2px solid #ff0000;border-radius:8px;padding:14px;margin-bottom:10px;transition:.3s;box-shadow:0 0 15px rgba(255,0,0,.3)}
+.user-item:hover{background:rgba(255,0,0,.1);box-shadow:0 0 25px rgba(255,0,0,.7)}
+.user-key{color:#ffcc00;font-family:'Courier New',monospace;font-size:12px;word-break:break-all;font-weight:900;text-shadow:0 0 10px #ffcc00;margin-bottom:8px}
+.user-stats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.user-stats span{background:rgba(255,0,0,.15);padding:3px 9px;border-radius:12px;font-size:10px;border:1px solid rgba(255,0,0,.5);color:#ff0000;font-weight:900;text-shadow:0 0 8px rgba(255,0,0,.5)}
+.bot-tag{background:rgba(0,100,255,.15);padding:3px 8px;border-radius:10px;font-size:10px;display:inline-block;margin-left:4px;margin-top:4px;border:1px solid rgba(0,150,255,.4);color:#00aaff;font-weight:900}
+.bot-tag.running{border-color:#00ff88;color:#00ff88;text-shadow:0 0 8px #00ff88}
+.bot-tag.stopped{border-color:#ff0000;color:#ff0000;text-shadow:0 0 8px #ff0000}
+.user-actions{display:flex;gap:6px;margin-top:10px}
+.user-actions .btn{flex:1}
+.empty{text-align:center;color:#660000;padding:25px;font-style:italic;font-weight:900;letter-spacing:1px;text-shadow:0 0 10px rgba(255,0,0,.5)}
+.footer{text-align:center;color:#660000;font-size:10px;padding:15px 0;letter-spacing:2px;font-weight:900;text-shadow:0 0 8px rgba(255,0,0,.5);border-top:2px dashed #ff0000;margin-top:20px}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(10,0,0,.95);color:#fff;padding:14px 24px;border:2px solid #ff0000;border-radius:8px;font-size:13px;font-weight:900;z-index:2000;display:none;font-family:'Courier New',monospace;box-shadow:0 0 30px rgba(255,0,0,.8);letter-spacing:1px;text-shadow:0 0 10px #ff0000}
+.toast.success{border-color:#00ff88;color:#00ff88;text-shadow:0 0 10px #00ff88}
+/* نافذة الملفات */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;justify-content:center;align-items:center;padding:15px}
+.modal-overlay.active{display:flex}
+.modal{background:#0a0000;border:2px solid #ff0000;border-radius:8px;padding:20px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 0 40px rgba(255,0,0,.8)}
+.modal-title{font-size:16px;color:#ff0000;text-align:center;margin-bottom:15px;font-weight:900;letter-spacing:2px;text-shadow:0 0 15px #ff0000}
+.file-tree{background:#000;border:1px solid #ff0000;border-radius:6px;padding:10px;max-height:300px;overflow-y:auto;font-size:11px;margin-bottom:12px}
+.file-tree-item{padding:4px 8px;color:#cc0000;cursor:pointer;border-radius:4px;font-family:'Courier New',monospace}
+.file-tree-item:hover{background:rgba(255,0,0,.2);color:#fff}
+.file-content{background:#000;color:#ff0000;padding:12px;border-radius:6px;font-family:'Courier New',monospace;font-size:11px;white-space:pre-wrap;max-height:300px;overflow-y:auto;border:1px solid #ff0000}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="grid-bg"></div>
+<div class="toast" id="toast"></div>
+
+<div class="terminal">
+    <div class="terminal-bar">
+        <div class="bar-dot"></div>
+        <div class="bar-dot yellow"></div>
+        <div class="bar-dot green"></div>
+        <div class="bar-title">ABDOUUU-GHOST@ADMIN:~#</div>
+    </div>
+    <div class="terminal-body">
+        <div class="admin-header">
+            <div class="admin-icon">👻</div>
+            <div class="admin-title">ADMIN GHOST PANEL</div>
+            <div class="admin-sub">► SYSTEM ONLINE ◄</div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-box"><div class="stat-num" id="statUsers">0</div><div class="stat-lbl">USERS</div></div>
+            <div class="stat-box"><div class="stat-num" id="statBots">0</div><div class="stat-lbl">BOTS</div></div>
+            <div class="stat-box"><div class="stat-num" id="statRunning">0</div><div class="stat-lbl">RUNNING</div></div>
+        </div>
+        <div class="section">
+            <div class="section-header"><span>► إنشاء كود جديد</span><span>+ ADD KEY</span></div>
+            <div class="section-body">
+                <div class="form-grid">
+                    <div class="form-field"><label>عدد البوتات</label><input type="number" id="maxBots" value="2" min="1"></div>
+                    <div class="form-field"><label>عدد المستخدمين</label><input type="number" id="maxUsers" value="1" min="1"></div>
+                    <div class="form-field"><label>عدد الأيام</label><input type="number" id="duration" value="30" min="1"></div>
+                    <div class="form-field"><label>RAM (MB)</label><input type="number" id="ram" value="256" min="64"></div>
+                </div>
+                <button class="btn" onclick="createKey()">🎲 GENERATE KEY</button>
+                <div id="newKeyResult"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header"><span>► المستخدمون</span><span id="userCount">[0]</span></div>
+            <div class="section-body">
+                <div id="usersList" class="empty">جاري التحميل...</div>
+            </div>
+        </div>
+        <div class="footer">
+            ► ABDOUUU VIP HOSTENG • CPS • TEAM ◄<br>
+            [ GHOST MODE ACTIVE ]
+        </div>
+    </div>
+</div>
+
+<!-- نافذة ملفات المستخدم -->
+<div class="modal-overlay" id="filesModal">
+    <div class="modal">
+        <div class="modal-title">📂 ملفات المستخدم: <span id="filesUserKey"></span></div>
+        <div class="file-tree" id="fileTree">جاري التحميل...</div>
+        <div style="display:flex;gap:8px">
+            <button class="btn btn-small" onclick="closeFiles()">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة قراءة ملف -->
+<div class="modal-overlay" id="readModal">
+    <div class="modal">
+        <div class="modal-title">📄 <span id="readFileName"></span></div>
+        <div class="file-content" id="fileContent">جاري التحميل...</div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="btn btn-small" onclick="closeRead()">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== Matrix =====
+const canvas=document.getElementById('matrix');
+const ctx=canvas.getContext('2d');
+let cols,drops;
+const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789アイウエオカキクケコサシスセソタチツテトナニヌネノ@#$%';
+const fontSize=16;
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;cols=Math.floor(canvas.width/fontSize);drops=Array(cols).fill(1)}
+resizeCanvas();
+window.addEventListener('resize',resizeCanvas);
+function drawMatrix(){
+    ctx.fillStyle='rgba(0,0,0,.1)';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#ff0000';ctx.font='bold '+fontSize+'px monospace';ctx.shadowColor='#ff0000';ctx.shadowBlur=12;
+    for(let i=0;i<drops.length;i++){
+        const text=chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+        if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix,50);
+
+function showToast(msg,type='error'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.style.display='block';clearTimeout(t._tm);t._tm=setTimeout(()=>t.style.display='none',3000)}
+
+async function createKey(){
+    const maxBots=+document.getElementById('maxBots').value;
+    const maxUsers=+document.getElementById('maxUsers').value;
+    const durationDays=+document.getElementById('duration').value;
+    const ramLimit=+document.getElementById('ram').value;
+    try{
+        const res=await fetch('/api/admin/create-key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({maxBots,maxUsers,durationDays,ramLimit})});
+        const data=await res.json();
+        if(data.success){
+            document.getElementById('newKeyResult').innerHTML=`<div class="new-key">✅ KEY: ${data.key}</div>`;
+            showToast('✅ تم إنشاء الكود','success');
+            loadUsers();
+        }
+    }catch(e){showToast('خطأ في الاتصال','error')}
+}
+
+async function loadUsers(){
+    try{
+        const res=await fetch('/api/admin/users');
+        const users=await res.json();
+        let totalBots=0,runningBots=0;
+        users.forEach(u=>{(u.bots||[]).forEach(b=>{totalBots++;if(b.status==='running')runningBots++})});
+        document.getElementById('statUsers').textContent=users.length;
+        document.getElementById('statBots').textContent=totalBots;
+        document.getElementById('statRunning').textContent=runningBots;
+        document.getElementById('userCount').textContent='['+users.length+']';
+        const list=document.getElementById('usersList');
+        if(users.length===0){list.innerHTML='<div class="empty">لا يوجد مستخدمون</div>';return}
+        list.innerHTML=users.map(u=>{
+            const isExpired=new Date(u.expiry)<new Date();
+            const daysLeft=Math.ceil((new Date(u.expiry)-new Date())/86400000);
+            return `
+                <div class="user-item">
+                    <div class="user-key">🔑 ${u.key}</div>
+                    <div class="user-stats">
+                        <span>📅 ${isExpired?'EXPIRED':daysLeft+' DAYS'}</span>
+                        <span>🤖 ${(u.bots||[]).length}/${u.maxBots}</span>
+                        <span>👥 ${u.maxUsers||1}</span>
+                        <span>💾 ${u.ramLimit}MB</span>
+                    </div>
+                    <div>
+                        ${(u.bots||[]).map(b=>`<span class="bot-tag ${b.status}">${b.name} ●</span>`).join('')}
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn btn-small" onclick="copyKey('${u.key}')">📋 نسخ</button>
+                        <button class="btn btn-small" onclick="viewFiles('${u.key}')">📂 ملفات</button>
+                        <button class="btn btn-small" onclick="deleteUser('${u.key}')">🗑 حذف</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }catch(e){console.error(e)}
+}
+
+function copyKey(k){navigator.clipboard.writeText(k).then(()=>showToast('✅ تم النسخ','success'))}
+
+async function viewFiles(key){
+    document.getElementById('filesUserKey').textContent=key;
+    document.getElementById('fileTree').textContent='جاري التحميل...';
+    document.getElementById('filesModal').classList.add('active');
+    try{
+        const res=await fetch(`/api/admin/user-files/${key}`);
+        const data=await res.json();
+        if(!data.tree||data.tree.length===0){
+            document.getElementById('fileTree').innerHTML='<div style="color:#666;text-align:center;padding:20px">لا توجد ملفات</div>';
+            return;
+        }
+        document.getElementById('fileTree').innerHTML=data.tree.map(f=>{
+            const isCode=f.name.endsWith('.py')||f.name.endsWith('.js')||f.name.endsWith('.txt')||f.name.endsWith('.json');
+            const indent='　'.repeat(Math.min(f.depth,3));
+            const size=(f.size/1024).toFixed(1)+'KB';
+            return `<div class="file-tree-item" onclick="readFile('${key}','${f.path.replace(/'/g,"\\'")}','${f.name.replace(/'/g,"\\'")}')">
+                ${indent}${isCode?'📄':'📎'} ${f.path} <span style="color:#666;float:left">${size}</span>
+            </div>`;
+        }).join('');
+    }catch(e){
+        document.getElementById('fileTree').innerHTML='<div style="color:#ff0000">خطأ في التحميل</div>';
+    }
+}
+
+async function readFile(key,path,name){
+    document.getElementById('readFileName').textContent=name;
+    document.getElementById('fileContent').textContent='جاري التحميل...';
+    document.getElementById('readModal').classList.add('active');
+    try{
+        const res=await fetch('/api/admin/read-file',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key,path})});
+        const data=await res.json();
+        if(data.success){
+            document.getElementById('fileContent').textContent=data.content||'(فارغ)';
+        }else{
+            document.getElementById('fileContent').textContent='❌ '+data.message;
+        }
+    }catch(e){
+        document.getElementById('fileContent').textContent='خطأ';
+    }
+}
+
+function closeFiles(){document.getElementById('filesModal').classList.remove('active')}
+function closeRead(){document.getElementById('readModal').classList.remove('active')}
+
+async function deleteUser(key){
+    if(!confirm('حذف المستخدم وكل بوتاته؟'))return;
+    await fetch(`/api/admin/user/${key}`,{method:'DELETE'});
+    showToast('🗑 تم الحذف','success');
+    loadUsers();
+}
+
+loadUsers();
+setInterval(loadUsers,8000);
+</script>
+</body>
+</html>
